@@ -184,6 +184,17 @@ public class RNSoundModule extends ReactContextBaseJavaModule implements AudioMa
         }
     }
 
+    if(fileName.startsWith("base64://")) {
+      try {
+        String base64Encoded = fileName.substring(9);
+        String url = "data:audio/mp3;base64," + base64Encoded;
+        mediaPlayer.setDataSource(url);
+      } catch(Exception ex) {
+        Log.e("RNSoundModule", "Exception", e);
+        return null;
+      }
+    }
+
     File file = new File(fileName);
     if (file.exists()) {
       mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);

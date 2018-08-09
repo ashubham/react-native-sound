@@ -196,6 +196,11 @@ RCT_EXPORT_METHOD(prepare:(NSString*)fileName
     fileNameUrl = [NSURL URLWithString:fileName];
     player = [[AVAudioPlayer alloc] initWithContentsOfURL:fileNameUrl error:&error];
   }
+  else if ([fileName hasPrefix:@"base64://"]) {
+    NSString *base64String = [fileName substringFromIndex:9];
+    NSData *data = [[NSData alloc] initWithBase64EncodedString:base64String options:0];
+    player = [[AVAudioPlayer alloc] initWithData:data error:&error];
+  }
   else {
     fileNameUrl = [NSURL URLWithString: fileName];
     player = [[AVAudioPlayer alloc]
